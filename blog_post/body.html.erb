@@ -1,8 +1,9 @@
 <% if current_user %><% set_category_user('blog') %><% end %>
-<% get_topic_view(params[:param], opts: { include_suggested: false, include_related: false, post_number: 1 }, instance_var: "topic_view", set_page_title: true) %>
+<% get_topic_view(params[:param], opts: { include_suggested: false, include_related: false, post_number: 1 }, instance_var: "topic_view", set_page_title: true) %>]
 
 <% content_for :head do %>
-
+  
+  <title><%= @page_title %></title>
   <meta name="title" content="<%= @page_title %>" />
   <meta name="description" content="<%= @topic_view.posts.first.excerpt_for_topic %>" />
   <meta property="og:title" content="<%= @page_title %>" />
@@ -24,7 +25,7 @@
 } %>
 
 <% if @topic_view.present? %>
-  <div class="title-container" <% unless mobile_view? %> style="background-image: url(<%= @topic_view.topic.image_url %>) <% end %>">
+  <div class="title-container" <% unless mobile_view? %> style="background-image: url(<%= @topic_view.topic.image_url.present? ? @topic_view.topic.image_url : "/plugins/discourse-landing-pages/images/blog-placeholder.jpg" %>) <% end %>">
     <div class="contents canvas">
       <h1 title="<%= @topic_view.title %>" class="title"><%= @topic_view.title %></h1>
       <%= render partial: 'topic_byline', locals: {
@@ -32,9 +33,19 @@
         include_link: true,
         user_profile_opts: {
           include_avatar: true,
-          avatar_size: 60
+          avatar_size: 50
         }
       } %>
+      <%- if @topic_view.topic.tags.length > 0 %>
+        <div class="topic-tags">
+          <i class="tag-icon"><%= SvgSprite.raw_svg('tags') %></i>
+          <% @topic_view.topic.tags.each do |tag| %>
+            <a class="tag-item" href="/blog?tag=<%= tag.name%>" target="_blank" rel="noopener noreferrer">
+              #<%= tag.name %><%- if tag != @topic_view.topic.tags.last %>, <%- end %>
+            </a>
+          <% end %>
+        </div>
+      <%- end %>
     </div>
   </div>
 <% end %>
@@ -56,14 +67,21 @@
       <div class="comment-container">
         <% if @topic_view.posts.length > 1 %>
           <div class="comment-heading"><h4>Comments</h4></div>
-          <div class="comments canvas">
+          <div class="comments">
             <% @topic_view.posts[1..-1].each do |post| %>
-              <div class="comment">
-                <div class="comment-avatar">
-                  <img width="35" height="35" class="img-avatar" src="<%= post.user.small_avatar_url %>">
+              <div class="comment canvas">
+                <div class="comment-header">
+                  <div class="user-container">
+                    <div class="comment-avatar">
+                      <img width="25" height="25" class="img-avatar" src="<%= post.user.small_avatar_url %>">
+                    </div>
+                    <h3 class="comment-user" title="<%= post.user.username %>"><%= post.user.username %></h3>
+                  </div>
+                  <div class="date">
+                    <%= short_date(post.created_at) %>
+                  </div>
                 </div>
                 <div class="comment-content">
-                  <h3 class="comment-user" title="<%= post.user.username %>"><%= post.user.username %></h3>
                   <p><%= post.cooked.html_safe %></p>
                 </div>
               </div>
