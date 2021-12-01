@@ -1,5 +1,5 @@
 <% if current_user %><% set_category_user('blog') %><% end %>
-<% get_topic_view(params[:param], opts: { include_suggested: false, include_related: false, post_number: 1 }, instance_var: "topic_view", set_page_title: true) %>]
+<% get_topic_view(params[:param], opts: { include_suggested: false, include_related: false, post_number: 1 }, instance_var: "topic_view", set_page_title: true) %>
 
 <% content_for :head do %>
   
