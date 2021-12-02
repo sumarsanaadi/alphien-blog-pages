@@ -59,9 +59,17 @@
     </div>
     <div class="side-bar">
       <div class="sticky-content">
-        <%= render partial: "category_tag_list", locals: {
-            category: 'blog'
-        }%>
+        <div class="blog-search-container">
+          <form id="blog-search">
+            <input type="text" placeholder="Search.." name="search" required>
+            <button type="submit"><i class="search-icon"><%= SvgSprite.raw_svg('search') %></i></button>
+          </form>
+        </div>
+        <div>
+          <%= render partial: "category_tag_list", locals: {
+              category: 'blog'
+          }%>
+        </div>
       </div>
     </div>
   </div>
