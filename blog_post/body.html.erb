@@ -19,9 +19,19 @@
 
 <% end %>
 
-<%= render partial: "header", locals: {
+<%= render partial: "alphien_header", locals: {
   title: "Alphien Blog",
-  root: "/blog"
+  root: "/blog",
+  menus: [
+    {
+      label: "News",
+      href: "/blog?tag=news"
+    },
+    {
+      label: "Podcast",
+      href: "/blog?tag=podcast"
+    },
+  ]
 } %>
 
 <% if @topic_view.present? %>
