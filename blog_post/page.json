@@ -1,5 +1,5 @@
 {
   "name": "Blog Post",
-  "parent": "blog",
+  "path": "blog-post",
   "theme": "Alphien Light Theme"
 }
