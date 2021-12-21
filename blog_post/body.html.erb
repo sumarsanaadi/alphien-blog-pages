@@ -76,6 +76,7 @@
     <div class="container">
       <section class="post-content canvas">
         <%= ::LandingPages::Post.html(@topic_view.posts.first).html_safe %>
+        <div class="post-category-link">Read more <%= category_link(@topic_view.topic.category, true) %></div>
       </section>
 
       <div class="comment-container">
