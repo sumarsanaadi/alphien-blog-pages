@@ -16,6 +16,7 @@
   <meta property="twitter:image" content="<%= @topic_view.topic.image_url %>" />
   <meta property="twitter:url" content="https://forum.alphien.com/blog/<%= params[:sub_path] %>/<%= @topic_view.topic.slug %>" />
   <meta property="twitter:card" content="summary_large_image" />
+  <%= preload_script "addthis-config" %>
 
 <% end %>
 
@@ -34,6 +35,10 @@
     {
       label: "PDF",
       href: "/blog/pdf"
+    },
+    {
+      label: "Alphien",
+      href: "/blog/alphien"
     }
   ]
 } %>
