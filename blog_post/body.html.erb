@@ -85,6 +85,21 @@
       </section>
 
       <div class="comment-container">
+        <div class="comment-button">
+          <a class="btn btn-primary" href="<%= @topic_view.topic.url %>" target="_blank" rel="noopener noreferrer"><%= @topic_view.posts.length > 1 ? "Join the discussion" : "Start a discussion" %></a>
+          <% if !is_user_own_post && @is_user_like %>
+              <div class="btn btn-primary btn-like liked" title="you already liked this post" post-id="<%= @topic_view.posts.first.id %>">
+                <i><%= SvgSprite.raw_svg('far-thumbs-up') %></i>
+                <span>Liked</span>
+              </div>
+          <% end %>
+          <% if !is_user_own_post && !@is_user_like %>
+              <div class="btn btn-primary btn-like <% if current_user %>user<% else %>guest<% end %>" title="like this post" post-id="<%= @topic_view.posts.first.id %>">
+                <i><%= SvgSprite.raw_svg('far-thumbs-up') %></i>
+                <span>Like</span>
+              </div>
+          <% end %>
+        </div>
         <% if @topic_view.posts.length > 1 %>
           <div class="comment-heading"><h4>Comments</h4></div>
           <div class="comments">
@@ -107,10 +122,7 @@
               </div>
             <% end %>
          </div>
-       <% end %>
-        <div class="comment-footer">
-          <a class="btn btn-primary" href="<%= @topic_view.topic.url %>" target="_blank" rel="noopener noreferrer">Post a reply</a>
-        </div>
+        <% end %>
       </div>
     </div>
   </article>
