@@ -1,5 +1,6 @@
 <% if current_user %><% set_category_user('blog') %><% end %>
 <% get_topic_view(params[:param], opts: { include_suggested: false, include_related: false, post_number: 1 }, instance_var: "topic_view", set_page_title: true) %>
+<% set_central_login('https://beta-auth.alphien.com') %>
 
 <% content_for :head do %>
   
@@ -86,7 +87,13 @@
 
       <div class="comment-container">
         <div class="comment-button">
-          <a class="btn btn-primary" href="<%= @topic_view.topic.url %>" target="_blank" rel="noopener noreferrer"><%= @topic_view.posts.length > 1 ? "Join the discussion" : "Start a discussion" %></a>
+          <% if current_user %>
+            <a class="btn btn-primary" href="<%= @topic_view.topic.url %>" target="_blank" rel="noopener noreferrer"><%= @topic_view.posts.length > 1 ? "Join the discussion" : "Start a discussion" %></a>
+          <% else %>
+            <% if @central_login.present? %>
+                <a class="btn btn-primary" href="<%= path @central_login + "/?s=" +  CGI.escape(@topic_view.topic.url) %>" target="_blank" rel="noopener noreferrer"><%= @topic_view.posts.length > 1 ? "Join the discussion" : "Start a discussion" %></a>
+            <% end %>
+          <% end %>
           <% if !is_user_own_post && @is_user_like %>
               <div class="btn btn-primary btn-like liked" title="you already liked this post" post-id="<%= @topic_view.posts.first.id %>">
                 <i><%= SvgSprite.raw_svg('far-thumbs-up') %></i>
