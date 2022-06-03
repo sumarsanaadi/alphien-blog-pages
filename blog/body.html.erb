@@ -1,5 +1,5 @@
 <% if current_user %><% set_category_user('blog') %><% end %>
-<% set_central_login('https://beta-auth.alphien.com') %>
+<% set_central_login('https://auth.alphien.com') %>
 
 <% content_for :head do %>
   <title>Blog - Alphien</title>
@@ -58,7 +58,9 @@
         list_opts: {
           category: 'blog',
           no_definitions: true,
-          per_page: 4
+          per_page: 4,
+          order: "created",
+          ascending: "false"
         },
         item_opts: {
           excerpt_length: 50,

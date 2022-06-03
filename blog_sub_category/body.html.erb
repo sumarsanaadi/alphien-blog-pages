@@ -1,6 +1,6 @@
 <% if current_user %><% set_category_user('blog') %><% end %>
 <%= get_category_by_slug(params[:param])%>
-<% set_central_login('https://beta-auth.alphien.com') %>
+<% set_central_login('https://auth.alphien.com') %>
 
 <% content_for :head do %>
   <title><%= @page_category_name %> - Alphien</title>
@@ -57,7 +57,9 @@
           category: params[:param],
           no_definitions: true,
           per_page: 6,
-          page: params[:page]
+          page: params[:page],
+          order: "created",
+          ascending: "false"
         },
         item_opts: {
           excerpt_length: 50,
